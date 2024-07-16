@@ -7,7 +7,7 @@ def load_image(path):
     return cv2.imread(path)
 
 
-def draw_colored_border(image, rect, color='blue', thickness=2):
+def draw_colored_border(image, rect, color='orange', thickness=2):
     colors = {'red': (0, 0, 255),
               'orange': (0, 165, 255),
               'blue': (255, 0, 0)}
@@ -19,13 +19,28 @@ def draw_colored_border(image, rect, color='blue', thickness=2):
     cv2.rectangle(image, (x, y), (x + w, y + h), chosen_color, thickness, cv2.LINE_AA)
 
 
+def add_image_border(image, color='orange', thickness=2):
+    colors = {'red': (0, 0, 255),
+              'orange': (0, 165, 255),
+              'blue': (255, 0, 0)}
+    
+    height, width = image.shape[:2]
+
+    chosen_color = colors.get(color.lower(), (0, 0, 255))  # default 'red'
+    thickness = thickness * 2
+    image[:thickness, :] = chosen_color  # 上边框
+    image[height - thickness:, :] = chosen_color  # 下边框
+    image[:, :thickness] = chosen_color  # 左边框
+    image[:, width - thickness:] = chosen_color  # 右边框
+    
+    return image
+
+
 # magnify region
 def magnify_region(image, rect, scale_factor):
     x, y, w, h = rect
     selected_region = image[y:y+h, x:x+w]
     magnified_region = cv2.resize(selected_region, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
-
-    draw_colored_border(magnified_region, (0, 0, magnified_region.shape[1], magnified_region.shape[0]))
 
     return magnified_region
 
@@ -37,6 +52,7 @@ def place_magnified_on_image(original_image, magnified_image, loacte):
     # Ensure enlarged image are smaller than original images.
     mh, mw = min(mh, oh), min(mw, ow)
     magnified_image = cv2.resize(magnified_image, (mw, mh))
+    magnified_image = add_image_border(magnified_image)
 
     if loacte == 'left_up':
         original_image[0:mh, 0:mw] = magnified_image # left up
@@ -56,11 +72,11 @@ def place_magnified_on_image(original_image, magnified_image, loacte):
 def process_image(image_path, rect, scale_factor, loacte):
     image = load_image(image_path)
 
-    # Draw a box
-    draw_colored_border(image, rect)
-
     magnified_region = magnify_region(image, rect, scale_factor)
     result_image = place_magnified_on_image(image, magnified_region, loacte)
+
+    # Draw a box
+    draw_colored_border(image, rect)
 
     return result_image
 
@@ -117,7 +133,7 @@ if __name__ == "__main__":
         locate (str, optional): The location of the magnified area. Supports 'left_up', 'left_down', 'right_up', 'right_down'. Defaults to 'right_down'.
     """
 
-    directory = './data1/'
-    main(directory, save_subdir='left_up', scale_factor=5, loacte='left_up')
+    directory = './data4/'
+    main(directory, save_subdir='box', scale_factor=4, loacte='right_down')
 
 

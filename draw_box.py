@@ -7,7 +7,7 @@ def load_image(path):
     return cv2.imread(path)
 
 
-def draw_colored_border(image, rect, color='blue', thickness=4):
+def draw_colored_border(image, rect, color='orange', thickness=4):
     colors = {'red': (0, 0, 255),
               'orange': (0, 165, 255),
               'blue': (255, 0, 0)}
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         save_subdir (str, optional): The directory where the enlarged images will be saved. Defaults to "box".
     """
 
-    directory = './data1/'
+    directory = 'C:\\Users\\wyh\\Desktop\\Project\\Paper_FusionCLIP\\fig\\fig_en\\'
     main(directory, save_subdir='box')
 
 

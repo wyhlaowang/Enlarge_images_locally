@@ -43,3 +43,25 @@ loacte: (location_of_patch)
 </div>
 如果只需要在图像上绘制矩形框，运行```python draw_box.py```即可。
 
+
+## 放大区域放在旁边（右面或下面）
+<div style="display: flex;">
+    <img src="test_data/side/ir.png" width="200">
+    <img src="test_data/side/vi.png" width="200">
+    <img src="test_data/side/fu.png" width="200">
+</div>
+如果只需要在图像上绘制矩形框，运行```python draw_box_side.py```即可。
+
+
+## 单独保存放大区域
+源图像
+<div style="display: flex;">
+    <img src="test_data/single/03708_box.png" width="200">
+    <img src="test_data/single/03708ir_box.png" width="200">
+</div>
+单独保存的放大区域
+<div style="display: flex;">
+    <img src="test_data/single/03708_crop.png" width="100">
+    <img src="test_data/single/03708ir_crop.png" width="100">
+</div>
+如果只需要在图像上绘制矩形框，运行```python draw_box_save.py```即可。
